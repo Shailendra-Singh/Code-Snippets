@@ -1,0 +1,3 @@
+/home/spectre/repo/C-Projects/Algorithms-C/cmake-build-debug/CMakeFiles/Algorithms_C.dir
+/home/spectre/repo/C-Projects/Algorithms-C/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/spectre/repo/C-Projects/Algorithms-C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
