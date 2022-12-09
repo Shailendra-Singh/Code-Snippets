@@ -58,14 +58,14 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return i > 0;
+            return this.i > 0;
         }
 
         @Override
         public Item next() {
-            if(i==0)
+            if(this.i==0)
                 throw new NoSuchElementException();
-            return stackArray[--i];
+            return stackArray[--this.i];
         }
     }
 }
