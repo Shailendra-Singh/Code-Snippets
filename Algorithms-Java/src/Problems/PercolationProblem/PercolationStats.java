@@ -57,6 +57,18 @@ public class PercolationStats {
         StdOut.printf("%-23s = [%f, %f]\n", "95% confidence interval", ps.confidenceLo(), ps.confidenceHi());
     }
 
+    private static int getRow(int id, int n) {
+        int row = id / n;
+        if (id % n != 0) row += 1;
+        return row;
+    }
+
+    private static int getCol(int id, int n) {
+        int col = id % n;
+        if (col == 0) return n;
+        return col;
+    }
+
     // sample mean of percolation threshold
     public double mean() {
         return StdStats.mean(this.thresholdList);
@@ -75,17 +87,5 @@ public class PercolationStats {
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
         return this.mean() + ((CI_FACTOR * this.stddev()) / Math.sqrt(trials));
-    }
-
-    private static int getRow(int id, int n) {
-        int row = id / n;
-        if (id % n != 0) row += 1;
-        return row;
-    }
-
-    private static int getCol(int id, int n) {
-        int col = id % n;
-        if (col == 0) return n;
-        return col;
     }
 }
