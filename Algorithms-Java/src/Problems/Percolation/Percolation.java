@@ -1,4 +1,13 @@
-package Problems.PercolationProblem;
+package Problems.Percolation;
+/******************************************************************************
+ *  Compilation:  javac Percolation.java
+ *  Execution:    none
+ *  Dependencies: none
+ *
+ *  A data structure that detects percolation in a NxN 2-D grid.
+ *  For use on Coursera, Algorithms Part I programming assignment.
+ *
+ ******************************************************************************/
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
@@ -27,7 +36,11 @@ public class Percolation {
     private int openSiteCount;
     private boolean isPercolating;
 
-    // creates n-by-n grid, with all sites initially blocked
+    /**
+     * creates n-by-n grid, with all sites initially blocked
+     *
+     * @param n length of a square grid
+     */
     public Percolation(int n) {
 
         if (n <= 0) throw new IllegalArgumentException();
@@ -48,7 +61,12 @@ public class Percolation {
         if (row <= 0 || row > n || col <= 0 || col > n) throw new IllegalArgumentException();
     }
 
-    // opens the site (row, col) if it is not open already
+    /**
+     * opens the site (row, col) if it is not open already
+     *
+     * @param row 1-based row number
+     * @param col 1-based column number
+     */
     @SuppressWarnings("DuplicatedCode")
     public void open(int row, int col) {
         Percolation.checkArgumentsRange(row, col, this.n);
@@ -105,7 +123,11 @@ public class Percolation {
         if (state == STATE_OPEN_TOP_BOTTOM) this.isPercolating = true;
     }
 
-    // is the site (row, col) open?
+    /**
+     * @param row 1-based row number
+     * @param col 1-based column number
+     * @return is the site (row, col) open?
+     */
     public boolean isOpen(int row, int col) {
         Percolation.checkArgumentsRange(row, col, this.n);
 
@@ -113,7 +135,11 @@ public class Percolation {
         return this.isOpen[id];
     }
 
-    // is the site (row, col) full?
+    /**
+     * @param row 1-based row number
+     * @param col 1-based column number
+     * @return is the site (row, col) full?
+     */
     @SuppressWarnings("unused")
     public boolean isFull(int row, int col) {
         Percolation.checkArgumentsRange(row, col, this.n);
@@ -122,12 +148,16 @@ public class Percolation {
         return this.siteState[this.UF.find(id)] >= STATE_OPEN_TOP; // Either 6 or 7
     }
 
-    // returns the number of open sites
+    /**
+     * @return the number of open sites
+     */
     public int numberOfOpenSites() {
         return this.openSiteCount;
     }
 
-    // does the system percolate?
+    /**
+     * @return does the system percolate?
+     */
     public boolean percolates() {
         return this.isPercolating;
     }
