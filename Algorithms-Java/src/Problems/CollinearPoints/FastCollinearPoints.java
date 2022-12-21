@@ -11,70 +11,82 @@ package Problems.CollinearPoints;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class FastCollinearPoints {
 
     private final ArrayList<LineSegment> segments;
 
     public FastCollinearPoints(Point[] points) {
-        if (points == null) throw new IllegalArgumentException();
-        for (int i = 0; i < points.length; i++) {
-            if(points[i] == null) throw new IllegalArgumentException();
-            for (int j = i + 1; j < points.length; j++)
-                if (points[j] == null || points[i].compareTo(points[j]) == 0)
-                    throw new IllegalArgumentException();
+        if (points == null) throw new IllegalArgumentException("The argument to the constructor is null");
+
+        Point[] copiedPoints = new Point[points.length];
+        for (int i = 0; i < points.length; i++){
+            if (points[i] == null) throw new IllegalArgumentException("Any point in the array is null");
+            copiedPoints[i] = points[i];
         }
+
+        // Sort to detect duplicates
+        Arrays.sort(copiedPoints);
+
+        // Repeated point
+        for (int i = 1; i < copiedPoints.length; i++)
+            if (copiedPoints[i - 1].compareTo(copiedPoints[i]) == 0)
+                throw new IllegalArgumentException("Contains a repeated point");
 
         this.segments = new ArrayList<>();
         this.findCollinearPoints(points);
     }
 
     private void findCollinearPoints(Point[] points) {
+
         for (int i = 0; i < points.length; i++) {
             // ith point is origin
             Point origin = points[i];
-            // rest are sorted by slope
-            Point[] others = new Point[points.length - i - 1];
-            int id=0;
-            for (int j = i+1; j < points.length; j++)
-                    others[id++] = points[j];
+            // find rest of the points
+            Point[] others = new Point[points.length - 1];
+            double[][] othersSlopes = new double[points.length - 1][2];
 
-            Arrays.sort(others, origin.slopeOrder());
-            Point min, max;
-            for(int j =0;j<others.length-2;j++){
-                Point p,q,r,s;
-                p = points[i];
-                q = others[j];
-                r = others[j+1];
-                s = others[j+2];
-                double slope_pq, slope_pr, slope_ps;
-                slope_pq = p.slopeTo(q);
-                slope_pr = p.slopeTo(r);
-                slope_ps = p.slopeTo(s);
-                if (slope_pq == slope_pr && slope_pr == slope_ps) {
-                    min = findMin(p, q, r, s);
-                    max = findMax(p, q, r, s);
-                    LineSegment ls = new LineSegment(min, max);
-                    this.segments.add(ls);
+            int id = 0;
+            for (int j = 0; j < points.length; j++)
+                if (i != j) others[id++] = points[j];   // skip origin
+
+            // sort points by natural order
+            Arrays.sort(others);
+
+            for (int j = 0; j < others.length; j++) {
+                othersSlopes[j][0] = origin.slopeTo(others[j]); // save slope
+                othersSlopes[j][1] = j;                         // save original index
+            }
+
+            // sort them by slope to bring similar points closer
+            Arrays.sort(othersSlopes, new Comparator<double[]>() {
+                @Override
+                public int compare(double[] o1, double[] o2) {
+                    return Double.compare(o1[0], o2[0]);
+                }
+            });
+
+            int j = 0; // j stores the lower bound
+            int k = 1; // k stores the upper bound
+
+            // Loop to find 3 or more adjacent equal-slopes
+
+            while (j < others.length - 1) {
+                if (k < others.length && othersSlopes[j][0] == othersSlopes[k][0]) k++;
+                else {
+                    if (k - j > 2) {
+                        // Use sorted slope's index to refer back to the 'Point' object
+                        Point src = others[(int) othersSlopes[j][1]];
+                        Point dest = others[(int) othersSlopes[k - 1][1]];
+                        if (origin.compareTo(src) < 0) {
+                            segments.add(new LineSegment(origin, dest));
+                        }
+                    }
+                    j = k++; // move j by k, and k by j+1
                 }
             }
         }
-    }
-
-    private Point findMin(Point p, Point q, Point r, Point s) {
-        Point min = p;
-        if (min.compareTo(q) > 0) min = q;
-        if (min.compareTo(r) > 0) min = r;
-        if (min.compareTo(s) > 0) min = s;
-        return min;
-    }
-
-    private Point findMax(Point p, Point q, Point r, Point s) {
-        Point max = p;
-        if (max.compareTo(q) < 0) max = q;
-        if (max.compareTo(r) < 0) max = r;
-        if (max.compareTo(s) < 0) max = s;
-        return max;
     }
 
     /**
