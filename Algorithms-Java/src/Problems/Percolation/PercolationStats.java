@@ -1,4 +1,13 @@
-package Problems.PercolationProblem;
+package Problems.Percolation;
+/******************************************************************************
+ *  Compilation:  javac PercolationStats.java Percolation.java
+ *  Execution:    java PercolationStats
+ *  Dependencies: Percolation
+ *
+ *  A data structure that performs independent trials on an NxN 2-D grid.
+ *  For use on Coursera, Algorithms Part I programming assignment.
+ *
+ ******************************************************************************/
 
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
@@ -10,7 +19,11 @@ public class PercolationStats {
     private final int trials;
     private final double[] thresholdList;
 
-    // perform independent trials on an n-by-n grid
+    /**
+     * perform independent trials on an n-by-n grid
+     * @param n size of grid
+     * @param trials number of trials
+     */
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0) throw new IllegalArgumentException();
 
@@ -43,7 +56,7 @@ public class PercolationStats {
         }
     }
 
-    // test client (see below)
+    // test client
     public static void main(String[] args) {
 
         if (args.length == 0 || args.length > 2) throw new IllegalArgumentException();
@@ -69,22 +82,30 @@ public class PercolationStats {
         return col;
     }
 
-    // sample mean of percolation threshold
+    /**
+     * @return sample mean of percolation threshold
+     */
     public double mean() {
         return StdStats.mean(this.thresholdList);
     }
 
-    // sample standard deviation of percolation threshold
+    /**
+     * @return sample standard deviation of percolation threshold
+     */
     public double stddev() {
         return StdStats.stddev(this.thresholdList);
     }
 
-    // low endpoint of 95% confidence interval
+    /**
+     * @return low endpoint of 95% confidence interval
+     */
     public double confidenceLo() {
         return this.mean() - ((CI_FACTOR * this.stddev()) / Math.sqrt(trials));
     }
 
-    // high endpoint of 95% confidence interval
+    /**
+     * @return high endpoint of 95% confidence interval
+     */
     public double confidenceHi() {
         return this.mean() + ((CI_FACTOR * this.stddev()) / Math.sqrt(trials));
     }
