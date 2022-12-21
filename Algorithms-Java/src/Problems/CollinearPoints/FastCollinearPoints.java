@@ -52,7 +52,7 @@ public class FastCollinearPoints {
                 if (i != j) others[id++] = points[j];   // skip origin
 
             // sort points by natural order
-            Arrays.sort(others);
+            Arrays.sort(others, origin.slopeOrder());
 
             for (int j = 0; j < others.length; j++) {
                 othersSlopes[j][0] = origin.slopeTo(others[j]); // save slope
@@ -77,8 +77,15 @@ public class FastCollinearPoints {
                 else {
                     if (k - j > 2) {
                         // Use sorted slope's index to refer back to the 'Point' object
-                        Point src = others[(int) othersSlopes[j][1]];
-                        Point dest = others[(int) othersSlopes[k - 1][1]];
+                        int lo = (int) othersSlopes[j][1];
+                        int hi = (int) othersSlopes[k - 1][1];
+                        Point src = others[lo];
+                        Point dest = others[lo];
+                        // Find source and destination points in a line segment
+                        for(int idx = lo+1; idx<=hi; idx++){
+                            if(src.compareTo(others[idx]) > 0) src = others[idx];
+                            if(dest.compareTo(others[idx]) < 0) dest = others[idx];
+                        }
                         if (origin.compareTo(src) < 0) {
                             segments.add(new LineSegment(origin, dest));
                         }
