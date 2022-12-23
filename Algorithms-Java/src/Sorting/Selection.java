@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 public class Selection extends BaseSort {
 
     public static void sort(Comparable @NotNull [] a, int lo, int hi) {
+        if (lo < 0) throw new IllegalArgumentException("Illegal lower bound");
+        if (hi > a.length - 1) throw new IllegalArgumentException("Illegal upper bound");
         int n = a.length;
         for (int i = lo; i <= hi; i++) {
             int min = i;
@@ -14,5 +16,9 @@ public class Selection extends BaseSort {
 
             exch(a, i, min);
         }
+    }
+
+    public static void sort(Comparable @NotNull [] a){
+        sort(a, 0, a.length-1);
     }
 }
