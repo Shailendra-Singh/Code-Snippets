@@ -5,8 +5,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
-@SuppressWarnings({"unused", "rawtypes", "unchecked"})
+@SuppressWarnings({"unused", "rawtypes", "SameParameterValue"})
 public abstract class BaseSort extends CommonOperation {
+
+    protected static boolean isSorted(Object @NotNull [] a) { return isSorted(a, 0, a.length); }
+    protected static boolean isSorted(Object @NotNull [] a, Comparator comparator) {
+        return isSorted(a, 0, a.length, comparator);
+    }
+
     protected static boolean isSorted(Object @NotNull [] a, int lo, int hi) {
         return isSorted(a, lo, hi, null);
     }
