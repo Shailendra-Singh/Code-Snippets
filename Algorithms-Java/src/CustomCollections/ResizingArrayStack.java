@@ -23,7 +23,7 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
         return this.N;
     }
 
-    private void resie(int newSize) {
+    private void resize(int newSize) {
         //noinspection unchecked
         Item[] resizedStackArray = (Item[]) new Object[newSize];
         //noinspection ManualArrayCopy
@@ -33,7 +33,7 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
     }
 
     public void push(Item item) {
-        if (this.N == this.stackArray.length) this.resie(this.N * 2);
+        if (this.N == this.stackArray.length) this.resize(this.N * 2);
         this.stackArray[this.N++] = item;
     }
 
@@ -43,7 +43,7 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
 
         Item poppedItem = this.stackArray[--this.N];
         this.stackArray[this.N] = null; // Avoid loitering (orphaned object due to decrementing N)
-        if (this.N > 0 && this.N < (1 / 4.0) * this.stackArray.length) this.resie(this.stackArray.length / 2);
+        if (this.N > 0 && this.N < (1 / 4.0) * this.stackArray.length) this.resize(this.stackArray.length / 2);
         return poppedItem;
     }
 
