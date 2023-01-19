@@ -9,12 +9,12 @@ import java.util.NoSuchElementException;
  * @param <Key>   Symbol Table's Comparable Key
  * @param <Value> Value associated with Key
  */
-@SuppressWarnings({"ReplaceNullCheck", "unused"})
+@SuppressWarnings({"ReplaceNullCheck", "unused", "DuplicatedCode"})
 public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends OrderedSymbolTable<Key, Value> {
 
     public static final int IN_ORDER = 0, PRE_ORDER = 1, POST_ORDER = 2, REVERSE_ORDER = 3, LEVEL_ORDER = 4;
 
-    private Node root;
+    protected Node root;
 
     /**
      * @return smallest Comparable
@@ -165,7 +165,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
         root = put(root, key, value);
     }
 
-    private Node put(Node x, Key key, Value value) {
+    protected Node put(Node x, Key key, Value value) {
         if (x == null) return new Node(key, value);
         int cmp = key.compareTo(x.key);
         if (cmp < 0) x.left = put(x.left, key, value);
@@ -246,7 +246,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
         return size(root);
     }
 
-    private int size(Node x) {
+    protected int size(Node x) {
         if (x == null) return 0;
         return x.count;
     }
@@ -258,7 +258,9 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
      */
     @Override
     public int size(Key lo, Key hi) {
-        return size(get(root, root.key)) - (size(floor(root, hi)) + size(ceiling(root, lo))) + 1;
+        if (lo.compareTo(hi) > 0) return 0;
+        if (contains(hi)) return rank(hi) - rank(lo) + 1;
+        else              return rank(hi) - rank(lo);
     }
 
     /**
@@ -351,16 +353,18 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
      * Represents a node in a tree with key and value.
      * Left sub-nodes have all keys smaller than this node, right sub-nodes have keys larger than this node.
      */
-    private class Node {
-        private final Key key;
-        private Value val;
-        private int count;
-        private Node left, right;
+    protected class Node {
+        protected final Key key;
+        protected Value val;
+        protected int count;
+        protected Node left, right;
+        protected boolean color; // color of parent link (or the color of the link coming into the current node)
 
         public Node(Key key, Value val) {
             this.key = key;
             this.val = val;
             this.count = 1;
+            this.color = true;
         }
     }
 }
