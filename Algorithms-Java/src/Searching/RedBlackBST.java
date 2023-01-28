@@ -24,8 +24,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BinarySearc
         this.root.color = BLACK;
     }
 
-    @Override
-    protected Node put(Node h, Key key, Value value) {
+    private Node put(Node h, Key key, Value value) {
         if (h == null) return new Node(key, value);
 
         int cmp = key.compareTo(h.key);
@@ -34,6 +33,119 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BinarySearc
         else h.val = value; // update value if key is already present
 
         // Red-Black tree operations to maintain perfect black-height
+        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h); // lean left
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h); // balance 4-node
+        if (isRed(h.left) && isRed(h.right)) flipColors(h); // split 4-node
+
+        h.count = 1 + size(h.left) + size(h.right);
+
+        return h;
+    }
+
+    /**
+     * delete smallest Comparable
+     */
+    @Override
+    public void deleteMin() {
+        if (!isRed(root.left) && !isRed(root.right)) root.color = RED;
+        root = deleteMin(root);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Node deleteMin(Node h) {
+        if (h.left == null) return null;
+        if (!isRed(h.left) && !isRed(h.left.left)) h = moveRedLeft(h);
+        h.left = deleteMin(h.left);
+        return balance(h);
+    }
+
+    /**
+     * delete largest Comparable
+     */
+    @Override
+    public void deleteMax() {
+        if (!isRed(root.left) && !isRed(root.right)) root.color = RED;
+        root = deleteMax(root);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Node deleteMax(Node h) {
+        if (isRed(h.left)) h = rotateRight(h);
+        if (h.right == null) return null;
+        if (!isRed(h.right) && !isRed(h.right.left)) h = moveRedRight(h);
+        h.right = deleteMax(h.right);
+        return balance(h);
+    }
+
+    /**
+     * @param key remove key (and its value) from table
+     */
+    @Override
+    public void delete(Key key) {
+        if (!isRed(root.left) && !isRed(root.right)) root.color = RED;
+        root = delete(root, key);
+        if (!isEmpty()) root.color = BLACK;
+    }
+
+    private Node delete(Node h, Key key) {
+        if (key.compareTo(h.key) < 0) {
+            if (!isRed(h.left) && !isRed(h.left.left)) h = moveRedLeft(h);
+            h.left = delete(h.left, key);
+        } else {
+            if (isRed(h.left)) h = rotateRight(h);
+            if (key.compareTo(h.key) == 0 && (h.right == null)) return null;
+            if (!isRed(h.right) && !isRed(h.right.left)) h = moveRedRight(h);
+            if (key.compareTo(h.key) == 0) {
+                Node x = min(h.right);
+                h.key = x.key;
+                h.val = x.val;
+                h.right = deleteMin(h.right);
+            } else h.right = delete(h.right, key);
+        }
+        return balance(h);
+    }
+
+    /**
+     * (Temporarily) Introduces disruption in red-black tree property on the way down.
+     * Assuming that h is red and both h.left and h.left.left are black, make h.left
+     * or one of its children red.
+     *
+     * @param h Node to move left
+     * @return h
+     */
+    private Node moveRedLeft(Node h) {
+        flipColors(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h = rotateLeft(h);
+        }
+        return h;
+    }
+
+    /**
+     * (Temporarily) Introduces disruption in red-black tree property on the way down.
+     * Assuming that h is red and both h.right and h.right.left are black, make h.right
+     * or one of its children red.
+     *
+     * @param h Node to move right
+     * @return h
+     */
+    private Node moveRedRight(Node h) {
+        flipColors(h);
+        if (isRed(h.left.left)) h = rotateRight(h);
+        return h;
+    }
+
+    /**
+     * Fixes the temporary disruption introduced in red-black tree property on the way up
+     *
+     * @param h current node
+     * @return h
+     */
+    private Node balance(Node h) {
+        if (isRed(h.right)) h = rotateLeft(h);
+
+        // Red-Black tree operations to maintain perfect black-height on the way up
         if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h); // lean left
         if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h); // balance 4-node
         if (isRed(h.left) && isRed(h.right)) flipColors(h); // split 4-node

@@ -3,6 +3,7 @@ package Searching;
 import CustomCollections.LinkedListQueue;
 
 import java.util.NoSuchElementException;
+
 /**
  * Binary Search Tree data structure implements Symbol Table API
  *
@@ -25,7 +26,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
         return min(root).key;
     }
 
-    private Node min(Node x) {
+    protected Node min(Node x) {
         while (x.left != null) x = x.left;
         return x;
     }
@@ -165,7 +166,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
         root = put(root, key, value);
     }
 
-    protected Node put(Node x, Key key, Value value) {
+    private Node put(Node x, Key key, Value value) {
         if (x == null) return new Node(key, value);
         int cmp = key.compareTo(x.key);
         if (cmp < 0) x.left = put(x.left, key, value);
@@ -260,7 +261,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
     public int size(Key lo, Key hi) {
         if (lo.compareTo(hi) > 0) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
+        else return rank(hi) - rank(lo);
     }
 
     /**
@@ -354,7 +355,7 @@ public class BinarySearchTreeST<Key extends Comparable<Key>, Value> extends Orde
      * Left sub-nodes have all keys smaller than this node, right sub-nodes have keys larger than this node.
      */
     protected class Node {
-        protected final Key key;
+        protected Key key;
         protected Value val;
         protected int count;
         protected Node left, right;
