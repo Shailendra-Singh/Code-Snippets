@@ -2,16 +2,12 @@ package Graphs;
 
 import CustomCollections.LinkedListQueue;
 
-public class BreadthFirstSearch {
-    private final int[] edgeTo;
+public class BreadthFirstSearch extends FirstSearch {
     private final int[] distTo;
-    private final boolean[] marked;
 
     public BreadthFirstSearch(Graph G, int s) {
-        int V = G.V();
-        this.edgeTo = new int[V];
-        this.distTo = new int[V];
-        this.marked = new boolean[V];
+        super(G);
+        this.distTo = new int[G.V()];
         this.bfs(G, s);
     }
 
@@ -29,22 +25,6 @@ public class BreadthFirstSearch {
                     this.distTo[w] = this.distTo[v] + 1;
                 }
         }
-    }
-
-    /**
-     * @param v queried vertex
-     * @return is the vertex marked by DFS?
-     */
-    public boolean isMarked(int v) {
-        return this.marked[v];
-    }
-
-    /**
-     * @param v queried vertex
-     * @return previous vertex on path to v
-     */
-    public int getEdgeTo(int v) {
-        return this.edgeTo[v];
     }
 
     /**

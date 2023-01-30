@@ -2,21 +2,13 @@ package Graphs;
 
 import CustomCollections.LinkedListStack;
 
-@SuppressWarnings("unused")
-public class DFSPaths {
-
-    private final DepthFirstSearch DFS;
+abstract class Paths {
+    protected final FirstSearch firstSearch;
     private final int sourceVertex;
 
-    /**
-     * Find paths in G from source s
-     *
-     * @param G graph
-     * @param s source vertex
-     */
-    public DFSPaths(Graph G, int s) {
-        this.DFS = new DepthFirstSearch(G, s);
-        this.sourceVertex = s;
+    public Paths(FirstSearch firstSearch, int sourceVertex) {
+        this.firstSearch = firstSearch;
+        this.sourceVertex = sourceVertex;
     }
 
     /**
@@ -24,17 +16,18 @@ public class DFSPaths {
      * @return is there a path from s to v?
      */
     public boolean hasPathTo(int v) {
-        return this.DFS.isMarked(v);
+        return this.firstSearch.visited(v);
     }
 
     /**
      * @param v queried vertex
      * @return path from s to v; null if no such path
      */
+    @SuppressWarnings("unused")
     public Iterable<Integer> pathTo(int v) {
         if (!hasPathTo(v)) return null;
         LinkedListStack<Integer> path = new LinkedListStack<>();
-        for (int x = v; x != this.sourceVertex; x = DFS.getEdgeTo(x))
+        for (int x = v; x != this.sourceVertex; x = this.firstSearch.getEdgeTo(x))
             path.push(x);
         path.push(this.sourceVertex);
         return path;
