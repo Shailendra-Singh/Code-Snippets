@@ -23,6 +23,23 @@ public class ConnectedComponent {
     }
 
     /**
+     * Finds connected components in G using traverse order instead of ascending order from 0 to V-1
+     *
+     * @param G             graph
+     * @param traverseOrder order in which to visit nodes
+     */
+    public ConnectedComponent(Graph G, Iterable<Integer> traverseOrder) {
+        this.marked = new boolean[G.V()];
+        this.id = new int[G.V()];
+        this.count = 0;
+        for (int v : traverseOrder)
+            if (!this.marked[v]) {
+                dfs(G, v);
+                this.count++;
+            }
+    }
+
+    /**
      * @param v vertex
      * @param w vertex
      * @return are v and w connected?

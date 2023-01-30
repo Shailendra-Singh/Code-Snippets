@@ -5,8 +5,9 @@ import CustomCollections.RandomizedBag;
 @SuppressWarnings("ALL")
 public class Graph {
 
+    protected final RandomizedBag<Integer>[] adj;
     private final int V;
-    private final RandomizedBag<Integer>[] adj;
+    protected int E;
 
     /**
      * Creates an empty graph with V vertices
@@ -15,6 +16,7 @@ public class Graph {
      */
     public Graph(int V) {
         this.V = V;
+        this.E = 0;
         //noinspection unchecked
         this.adj = new RandomizedBag[V];
         for (int i = 0; i < V; i++)
@@ -30,6 +32,7 @@ public class Graph {
     public void addEdge(int v, int w) {
         adj[v].add(w);
         adj[w].add(v);
+        this.E++;
     }
 
     /**
@@ -59,11 +62,7 @@ public class Graph {
      * @return number of edges
      */
     public int E() {
-        int edges = 0;
-        for (int v = 0; v < this.V; v++)
-            edges += this.numOfAdjacents(v);
-
-        return edges / 2; // as they are counted twice
+        return this.E;
     }
 
     /**
@@ -78,7 +77,6 @@ public class Graph {
                 sb.append(String.format("%s\t", w));
             sb.append("\n");
         }
-
         return sb.toString();
     }
 }

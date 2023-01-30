@@ -1,13 +1,8 @@
 package Graphs;
 
-public class DepthFirstSearch {
-    private final boolean[] marked;
-    private final int[] edgeTo;
-
+public class DepthFirstSearch extends FirstSearch {
     public DepthFirstSearch(Graph G, int s) {
-        int V = G.V();
-        this.marked = new boolean[V];
-        this.edgeTo = new int[V];
+        super(G);
         this.dfs(G, s);
     }
 
@@ -18,21 +13,5 @@ public class DepthFirstSearch {
                 dfs(G, w);
                 this.edgeTo[w] = v;
             }
-    }
-
-    /**
-     * @param v queried vertex
-     * @return is the vertex marked by DFS?
-     */
-    public boolean isMarked(int v) {
-        return this.marked[v];
-    }
-
-    /**
-     * @param v queried vertex
-     * @return previous vertex on path to v
-     */
-    public int getEdgeTo(int v) {
-        return this.edgeTo[v];
     }
 }

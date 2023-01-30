@@ -56,22 +56,35 @@ public final class GraphProcessor {
         return count / 2; // each edge counted twice
     }
 
+    /**
+     * @param G graph
+     * @return is the graph acyclic?
+     */
+    public static boolean hasCycle(Graph G) {
+        return (new DetectCycle(G)).hasCycle();
+    }
+
+    /**
+     * @param G graph
+     * @return is the graph two-colorable
+     * (no edge connects vertices of same color)?
+     */
+    public static boolean isBipartite(Graph G) {
+        return (new DetectBipartite(G)).isBipartite();
+    }
+
     public static void main(String[] args) {
         // initialize the data structures from file
         String filename = args[0];
         In in = new In(filename);
         int v = in.readInt();
         int e = in.readInt();
-        Graph G = new Graph(v);
+        DiGraph G = new DiGraph(v);
         for (int i = 0; i < e; i++) {
             int a = in.readInt();
             int b = in.readInt();
             G.addEdge(a, b);
         }
         StdOut.println(G);
-        StdOut.println(degree(G, 0));
-        StdOut.println(maxDegree(G));
-        StdOut.println(avgDegree(G));
-        StdOut.println(numberOfSelfLoops(G));
     }
 }
