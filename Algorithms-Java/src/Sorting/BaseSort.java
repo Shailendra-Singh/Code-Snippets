@@ -1,14 +1,18 @@
 package Sorting;
 
-import Common.CommonOperation;
+import static Common.CommonOperation.less;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
 @SuppressWarnings({"unused", "rawtypes", "SameParameterValue"})
-public abstract class BaseSort extends CommonOperation {
+public abstract class BaseSort {
 
-    protected static boolean isSorted(Object @NotNull [] a) { return isSorted(a, 0, a.length); }
+    protected static boolean isSorted(Object @NotNull [] a) {
+        return isSorted(a, 0, a.length);
+    }
+
     protected static boolean isSorted(Object @NotNull [] a, Comparator comparator) {
         return isSorted(a, 0, a.length, comparator);
     }

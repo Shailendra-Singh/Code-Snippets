@@ -4,6 +4,8 @@ import Sorting.BaseSort;
 
 import java.util.Comparator;
 
+import static Common.CommonOperation.compareTo;
+
 /**
  * Requires the input-array to be sorted, hence depends on BaseSort for validity check.
  */

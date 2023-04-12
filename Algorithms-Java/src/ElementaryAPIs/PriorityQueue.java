@@ -1,14 +1,16 @@
 package ElementaryAPIs;
 
-import Common.CommonOperation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import static Common.CommonOperation.exch;
+import static Common.CommonOperation.less;
+
 @SuppressWarnings({"unused", "rawtypes", "unchecked", "SameParameterValue"})
-public class PriorityQueue<Key> extends CommonOperation implements Iterable<Key> {
+public class PriorityQueue<Key> implements Iterable<Key> {
 
     private static final int MIN_SIZE = 9;
     private Comparator<Key> comparator;
