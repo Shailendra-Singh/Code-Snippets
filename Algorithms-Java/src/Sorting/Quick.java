@@ -4,6 +4,8 @@ import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Comparator;
 
+import static Common.CommonOperation.*;
+
 @SuppressWarnings({"rawtypes", "unused"})
 public class Quick extends BaseSort {
 
@@ -141,7 +143,7 @@ public class Quick extends BaseSort {
         int i = lo, lt = lo, gt = hi;
         Object v = a[lo];
         while (i <= gt) {
-            int cmp = BaseSort.compareTo(a[i], v, comparator);
+            int cmp = compareTo(a[i], v, comparator);
             if (cmp < 0) exch(a, lt++, i++);
             else if (cmp > 0) exch(a, i, gt--);
             else i++;

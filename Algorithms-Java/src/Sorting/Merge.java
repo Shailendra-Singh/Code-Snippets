@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
+import static Common.CommonOperation.less;
+
 @SuppressWarnings({"rawtypes", "unused"})
 public class Merge extends BaseSort {
 
