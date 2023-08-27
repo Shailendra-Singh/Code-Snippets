@@ -13,9 +13,9 @@ import static Common.CommonOperation.less;
 public class PriorityQueue<Key> implements Iterable<Key> {
 
     private static final int MIN_SIZE = 9;
-    private Comparator<Key> comparator;
-    private Key[] pq;
-    private int N;
+    protected Comparator<Key> comparator;
+    protected Key[] pq;
+    protected int N;
 
     public PriorityQueue() {
         initialize(null, null);
@@ -33,7 +33,7 @@ public class PriorityQueue<Key> implements Iterable<Key> {
         initialize(keys, comparator);
     }
 
-    private void initialize(Object[] keys, Comparator<Key> comparator) {
+    protected void initialize(Object[] keys, Comparator<Key> comparator) {
         this.comparator = comparator;
         this.pq = (Key[]) new Object[MIN_SIZE];
         if (keys == null) return;
@@ -46,7 +46,7 @@ public class PriorityQueue<Key> implements Iterable<Key> {
         swim(this.N);
     }
 
-    public Key delRoot() {
+    protected Key delRoot() {
         if (isEmpty()) throw new NoSuchElementException("Priority Queue is empty!");
 
         Key item = this.pq[1];
@@ -58,7 +58,7 @@ public class PriorityQueue<Key> implements Iterable<Key> {
         return item;
     }
 
-    public Key getRoot() {
+    protected Key getRoot() {
         if (isEmpty()) throw new NoSuchElementException("Priority Queue is empty!");
         return this.pq[1];
     }
@@ -72,17 +72,18 @@ public class PriorityQueue<Key> implements Iterable<Key> {
     }
 
     private void swim(int k) {
-        while (k > 1 && less(pq[k / 2], pq[k], comparator)) {
+        while (k > 1 && less(pq[k], pq[k / 2], comparator)) {
             exch(pq, k / 2, k);
             k /= 2;
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void sink(int k) {
         while (2 * k <= N) {
             int j = 2 * k;
-            if (j < N && less(pq[j], pq[j + 1], comparator)) j++;
-            if (!less(pq[k], pq[j], comparator)) break;
+            if (j < N && less(pq[j + 1], pq[j], comparator)) j++;
+            if (!less(pq[j], pq[k], comparator)) break;
             exch(pq, k, j);
             k = j;
         }

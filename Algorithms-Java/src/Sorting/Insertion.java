@@ -22,7 +22,7 @@ public class Insertion extends BaseSort {
     }
 
     /**
-     * @param a array of comparable
+     * @param a  array of comparable
      * @param lo lower bound within array
      * @param hi upper bound within array
      */
@@ -31,9 +31,9 @@ public class Insertion extends BaseSort {
     }
 
     /**
-     * @param a array of object
-     * @param lo lower bound within array
-     * @param hi upper bound within array
+     * @param a          array of object
+     * @param lo         lower bound within array
+     * @param hi         upper bound within array
      * @param comparator alternate sort order
      */
     public static void sort(Object @NotNull [] a, int lo, int hi, Comparator comparator) {
@@ -44,16 +44,16 @@ public class Insertion extends BaseSort {
     /**
      * @param a array of comparable
      */
-    public static void sort(Comparable @NotNull [] a){
-        sort(a, 0, a.length-1, null);
+    public static void sort(Comparable @NotNull [] a) {
+        sort(a, 0, a.length - 1, null);
     }
 
     /**
-     * @param a array of object
+     * @param a          array of object
      * @param comparator alternate sort order
      */
-    public static void sort(Object[] a, Comparator comparator){
+    public static void sort(Object[] a, Comparator comparator) {
         Insertion.comparator = comparator;
-        _sort(a, 0, a.length -1 );
+        _sort(a, 0, a.length - 1);
     }
 }

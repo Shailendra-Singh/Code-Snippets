@@ -31,4 +31,18 @@ public final class CommonOperation {
         a[i] = a[j];
         a[j] = swap;
     }
+
+    public static final class MinComparator<T extends Comparable<T>> implements Comparator<T> {
+        @Override
+        public int compare(T o1, T o2) {
+            return o1.compareTo(o2);
+        }
+    }
+
+    public static final class MaxComparator<T extends Comparable<T>> implements Comparator<T> {
+        @Override
+        public int compare(T o1, T o2) {
+            return o2.compareTo(o1);
+        }
+    }
 }

@@ -1,10 +1,10 @@
 package Sorting;
 
-import static Common.CommonOperation.less;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
+
+import static Common.CommonOperation.less;
 
 @SuppressWarnings({"unused", "rawtypes", "SameParameterValue"})
 public abstract class BaseSort {
