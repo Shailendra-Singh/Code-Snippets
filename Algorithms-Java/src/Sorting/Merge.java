@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
+import static Common.CommonOperation.less;
+
 @SuppressWarnings({"rawtypes", "unused"})
 public class Merge extends BaseSort {
 
@@ -28,7 +30,8 @@ public class Merge extends BaseSort {
         assert isSorted(aux, lo, mid, comparator);        // pre-condition: aux[lo ... mid] left-half sorted
         assert isSorted(aux, mid + 1, hi, comparator);// pre-condition: aux[mid+1 ... hi] right-half sorted
 
-        int i = lo; int j = mid + 1;
+        int i = lo;
+        int j = mid + 1;
 
         // merge a into aux
         for (int k = lo; k <= hi; k++) {

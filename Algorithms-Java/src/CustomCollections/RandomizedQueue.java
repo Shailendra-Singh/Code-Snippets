@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@SuppressWarnings("unused")
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
@@ -15,6 +16,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      */
     public RandomizedQueue() {
         this.last = -1;
+        //noinspection unchecked
         this.queue = (Item[]) new Object[1];
     }
 
@@ -76,6 +78,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomIterator();
     }
 
+    @SuppressWarnings("unchecked")
     private void resize(int size) {
         if (size <= 0) return;
 
@@ -95,8 +98,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private final Item[] iteratorItems;
         private int idx;
 
+        @SuppressWarnings("unchecked")
         public RandomIterator() {
-            RandomizedQueue<Item> iteratorQueue = new RandomizedQueue<Item>();
+            RandomizedQueue<Item> iteratorQueue = new RandomizedQueue<>();
             iteratorItems = (Item[]) new Object[size()];
             for (int i = 0; i <= last; i++)
                 iteratorQueue.enqueue(queue[i]);

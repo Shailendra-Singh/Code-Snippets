@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
+import static Common.CommonOperation.exch;
+import static Common.CommonOperation.less;
+
 @SuppressWarnings({"unused", "rawtypes"})
 public class Selection extends BaseSort {
 
