@@ -37,4 +37,14 @@ public final class Clients {
         System.out.printf("Weight: %.3f",  mst.weight());
         System.out.println();
     }
+
+    public static void PrimsEagerMSTClient(String[] args) {
+        EdgeWeightedGraph G = CreateEdgeWeightedGraph(args);
+
+        MST mst = new PrimsEagerMST(G);
+        for (Edge _e : mst.edges())
+            System.out.println(_e);
+        System.out.printf("Weight: %.3f", mst.weight());
+        System.out.println();
+    }
 }

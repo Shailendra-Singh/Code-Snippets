@@ -1,25 +1,33 @@
 package Graphs;
 
-import ElementaryAPIs.PriorityQueue;
+import ElementaryAPIs.MinPriorityQueue;
 
 public class PrimsLazyMST extends MST {
 
     private final boolean[] marked;
-    private final PriorityQueue<Edge> edgeMinPQ;
+    private final MinPriorityQueue<Edge> edgeMinPQ;
 
     public PrimsLazyMST(EdgeWeightedGraph G) {
         super(G);
         this.marked = new boolean[G.V()];
-        this.edgeMinPQ = new PriorityQueue<>(this.minEdgeWeightComparator);
+        this.edgeMinPQ = new MinPriorityQueue<>();
 
+        // assume G is connected
         visit(0);
 
         while (!edgeMinPQ.isEmpty()) {
-            Edge e = edgeMinPQ.delRoot();
+            // repeatedly delete min weight edge from PQ
+            Edge e = edgeMinPQ.delMin();
             int v = e.either(), w = e.other(v);
+
+            // ignore if both endpoints in T
             if (marked[v] && marked[w]) continue;
+
+            // add edge e to tree
             this.edgesQueue.enqueue(e);
-            this.weight += e.weight();
+            this._weight += e.weight();
+
+            // add v or w to the tree
             if (!marked[v]) visit(v);
             if (!marked[w]) visit(w);
         }
@@ -28,7 +36,6 @@ public class PrimsLazyMST extends MST {
     private void visit(int v) {
         this.marked[v] = true;
         for (Edge e : this.G.adj(v))
-            if (!this.marked[e.other(v)])
-                this.edgeMinPQ.insert(e);
+            if (!this.marked[e.other(v)]) this.edgeMinPQ.insert(e);
     }
 }

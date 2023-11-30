@@ -1,12 +1,12 @@
 package Graphs;
 
 import CustomCollections.UnionFind;
-import ElementaryAPIs.PriorityQueue;
+import ElementaryAPIs.MinPriorityQueue;
 
 public class KruskalMST extends MST {
     public KruskalMST(EdgeWeightedGraph G) {
         super(G);
-        PriorityQueue<Edge> edgeMinPQ = new PriorityQueue<>(this.minEdgeWeightComparator);
+        MinPriorityQueue<Edge> edgeMinPQ = new MinPriorityQueue<>();
         for (Edge e : this.G.edges())
             edgeMinPQ.insert(e);
 
@@ -14,7 +14,7 @@ public class KruskalMST extends MST {
 
         UnionFind uf = new UnionFind(this.G.V());
         while (!edgeMinPQ.isEmpty() && this.edgesQueue.size() < this.G.V() - 1) {
-            Edge e = edgeMinPQ.delRoot();
+            Edge e = edgeMinPQ.delMin();
             int v = e.either(), w = e.other(v);
             if (!uf.connected(v, w)) {
                 uf.union(v, w);
@@ -23,6 +23,6 @@ public class KruskalMST extends MST {
             }
         }
 
-        this.weight = wt;
+        this._weight = wt;
     }
 }
